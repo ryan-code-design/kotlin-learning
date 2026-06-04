@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kotlin 开发学习指南</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 50px 40px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+        header h1 {
+            font-size: 2.8em;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+        }
+        .kotlin-logo {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 20px;
+        }
+        header p {
+            font-size: 1.2em;
+            color: #666;
+        }
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.9em;
+            margin-top: 20px;
+        }
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+        .section h2 {
+            font-size: 1.8em;
+            color: #4f46e5;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #e0e7ff;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .section h2 .icon {
+            font-size: 1.2em;
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        .feature-card {
+            background: linear-gradient(135deg, #f5f7ff 0%, #f0f4ff 100%);
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.2);
+        }
+        .feature-card h3 {
+            color: #4f46e5;
+            margin-bottom: 12px;
+            font-size: 1.2em;
+        }
+        .feature-card p {
+            color: #64748b;
+            font-size: 0.95em;
+        }
+        .code-block {
+            background: #1e1e1e;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            overflow-x: auto;
+            position: relative;
+        }
+        .code-block::before {
+            content: 'Kotlin';
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            color: #888;
+            font-size: 0.8em;
+        }
+        .code-block pre {
+            color: #d4d4d4;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+        .code-block .keyword { color: #569cd6; }
+        .code-block .fun { color: #dcdcaa; }
+        .code-block .string { color: #ce9178; }
+        .code-block .comment { color: #6a9955; }
+        .code-block .class { color: #4ec9b0; }
+        .code-block .val { color: #b5cea8; }
+        .code-block .num { color: #b5cea8; }
+        .roadmap {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .roadmap-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-radius: 15px;
+            transition: all 0.3s;
+        }
+        .roadmap-item:hover {
+            background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+            transform: translateX(10px);
+        }
+        .step-number {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+            flex-shrink: 0;
+        }
+        .step-content h4 {
+            color: #4f46e5;
+            margin-bottom: 8px;
+        }
+        .step-content p {
+            color: #64748b;
+            font-size: 0.95em;
+        }
+        .resource-list {
+            list-style: none;
+        }
+        .resource-list li {
+            padding: 18px 20px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            margin-bottom: 12px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s;
+        }
+        .resource-list li:hover {
+            background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+            transform: translateX(5px);
+        }
+        .resource-list .resource-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2em;
+        }
+        .resource-list .resource-info h4 {
+            color: #4f46e5;
+            margin-bottom: 4px;
+        }
+        .resource-list .resource-info p {
+            color: #64748b;
+            font-size: 0.85em;
+        }
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9em;
+        }
+        footer a {
+            color: white;
+            text-decoration: none;
+        }
+        @media (max-width: 768px) {
+            header h1 { font-size: 2em; }
+            .section { padding: 25px; }
+            header { padding: 35px 25px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <svg class="kotlin-logo" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#7c52a8;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#e535ab;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <circle cx="64" cy="64" r="60" fill="url(#grad1)"/>
+                <text x="64" y="75" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-weight="bold" font-size="40">K</text>
+            </svg>
+            <h1>Kotlin 开发学习指南</h1>
+            <p>现代 Android 开发首选语言 · 简洁 · 安全 · 互操作</p>
+            <span class="badge">🚀 JetBrains 官方出品</span>
+        </header>
+
+        <div class="section">
+            <h2><span class="icon">✨</span> 为什么学习 Kotlin？</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>简洁优雅</h3>
+                    <p>比 Java 代码量减少 40%，语法更简洁，表达能力更强，让开发更高效。</p>
+                </div>
+                <div class="feature-card">
+                    <h3>空安全</h3>
+                    <p>编译时处理空指针异常，告别 NullPointerException，运行时不崩溃。</p>
+                </div>
+                <div class="feature-card">
+                    <h3>100% 互操作</h3>
+                    <p>与 Java 100% 互操作，可直接调用 Java 类库，无需额外适配。</p>
+                </div>
+                <div class="feature-card">
+                    <h3>协程支持</h3>
+                    <p>轻量级并发，异步编程变得像同步代码一样简单。</p>
+                </div>
+                <div class="feature-card">
+                    <h3>多平台支持</h3>
+                    <p>Kotlin Multiplatform: Android、iOS、Web、Server、Desktop 一套代码多端运行。</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Google 官方支持</h3>
+                    <p>Android 官方首选语言，享有持续更新和强大的社区支持。</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2><span class="icon">📝</span> 基础语法速览</h2>
+            
+            <h3 style="color: #4f46e5; margin: 25px 0 15px;">变量声明</h3>
+            <div class="code-block">
+                <pre><span class="comment">// 不可变变量（推荐）</span>
+<span class="keyword">val</span> name: String = <span class="string">"Kotlin"</span>
+<span class="keyword">val</span> version = <span class="num">1.9</span>  <span class="comment">// 类型推断</span>
+
+<span class="comment">// 可变变量</span>
+<span class="keyword">var</span> count: Int = <span class="num">0</span>
+count = <span class="num">1</span></pre>
+            </div>
+
+            <h3 style="color: #4f46e5; margin: 25px 0 15px;">函数定义</h3>
+            <div class="code-block">
+                <pre><span class="comment">// 基本函数</span>
+<span class="keyword">fun</span> <span class="fun">greet</span>(name: String): String {
+    <span class="keyword">return</span> <span class="string">"Hello, </span>$name<span class="string">!"</span>
+}
+
+<span class="comment">// 表达式函数体</span>
+<span class="keyword">fun</span> <span class="fun">add</span>(a: Int, b: Int) = a + b
+
+<span class="comment">// 默认参数</span>
+<span class="keyword">fun</span> <span class="fun">greet</span>(name: String, greeting: String = <span class="string">"Hello"</span>) 
+    = <span class="string">"</span>$greeting<span class="string">, </span>$name<span class="string">!"</span></pre>
+            </div>
+
+            <h3 style="color: #4f46e5; margin: 25px 0 15px;">类与对象</h3>
+            <div class="code-block">
+                <pre><span class="comment">// 数据类</span>
+<span class="keyword">data class</span> <span class="class">User</span>(<span class="keyword">val</span> name: String, <span class="keyword">val</span> age: Int)
+
+<span class="comment">// 单例对象</span>
+<span class="keyword">object</span> <span class="class">Config</span> {
+    <span class="keyword">val</span> API_URL = <span class="string">"https://api.example.com"</span>
+}
+
+<span class="comment">// 密封类</span>
+<span class="keyword">sealed class</span> <span class="class">Result</span>&lt;T&gt; {
+    <span class="keyword">data class</span> <span class="class">Success</span>(<span class="keyword">val</span> data: T) : <span class="class">Result</span>&lt;T&gt;()
+    <span class="keyword">data class</span> <span class="class">Error</span>(<span class="keyword">val</span> message: String) : <span class="class">Result</span>&lt;T&gt;()
+}</pre>
+            </div>
+
+            <h3 style="color: #4f46e5; margin: 25px 0 15px;">空安全</h3>
+            <div class="code-block">
+                <pre><span class="comment">// 可空类型</span>
+<span class="keyword">var</span> name: String? = <span class="keyword">null</span>
+
+<span class="comment">// 安全调用操作符</span>
+<span class="keyword">val</span> length = name?.length
+
+<span class="comment">// Elvis 操作符</span>
+<span class="keyword">val</span> len = name?.length ?: <span class="num">0</span>
+
+<span class="comment">// 非空断言（谨慎使用）</span>
+<span class="keyword">val</span> len2 = name!!.length
+
+<span class="comment">// let 安全执行</span>
+name?.let { 
+    <span class="comment">// 仅在 name 非空时执行</span>
+    println(it.length) 
+}</pre>
+            </div>
+
+            <h3 style="color: #4f46e5; margin: 25px 0 15px;">协程异步编程</h3>
+            <div class="code-block">
+                <pre><span class="keyword">suspend fun</span> <span class="fun">fetchData</span>(): String {
+    <span class="keyword">return</span> <span class="string">"Data"</span>
+}
+
+<span class="comment">// 启动协程</span>
+<span class="fun">lifecycleScope</span>.<span class="fun">launch</span> {
+    <span class="keyword">val</span> data = <span class="fun">fetchData</span>()  <span class="comment">// 异步但看起来像同步</span>
+    println(data)
+}</pre>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2><span class="icon">🛤️</span> 学习路线图</h2>
+            <div class="roadmap">
+                <div class="roadmap-item">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>基础入门</h4>
+                        <p>变量、函数、控制流、集合操作。推荐《Kotlin 实战》或官方文档。</p>
+                    </div>
+                </div>
+                <div class="roadmap-item">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>面向对象与函数式</h4>
+                        <p>类、继承、接口、泛型、高阶函数、Lambda 表达式、扩展函数。</p>
+                    </div>
+                </div>
+                <div class="roadmap-item">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>协程与异步</h4>
+                        <p>挂起函数、协程作用域、Flow、Channel，处理并发问题。</p>
+                    </div>
+                </div>
+                <div class="roadmap-item">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Android 开发实战</h4>
+                        <p>Jetpack Compose / XML、ViewModel、Room 数据库、网络请求、依赖注入。</p>
+                    </div>
+                </div>
+                <div class="roadmap-item">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h4>进阶拓展</h4>
+                        <p>Kotlin Multiplatform、Compose Multiplatform、深入理解协程原理、性能优化。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2><span class="icon">📚</span> 优质学习资源</h2>
+            <ul class="resource-list">
+                <li>
+                    <div class="resource-icon">📖</div>
+                    <div class="resource-info">
+                        <h4>Kotlin 官方文档</h4>
+                        <p>kotlinlang.org - 最权威的学习资料</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="resource-icon">📱</div>
+                    <div class="resource-info">
+                        <h4>JetBrains Academy</h4>
+                        <p>交互式学习路径，含实战项目</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="resource-icon">🎬</div>
+                    <div class="resource-info">
+                        <h4>Udacity Kotlin 课程</h4>
+                        <p>Google 官方合作课程</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="resource-icon">💬</div>
+                    <div class="resource-info">
+                        <h4>Kotlin 中文社区</h4>
+                        <p>r/Kotlin Reddit · Kotlin 中文论坛</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="resource-icon">📦</div>
+                    <div class="resource-info">
+                        <h4>GitHub Awesome Kotlin</h4>
+                        <p>精选库、框架、工具汇总</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>Made with ❤️ · Kotlin 让开发更美好</p>
+        </footer>
+    </div>
+</body>
+</html>
